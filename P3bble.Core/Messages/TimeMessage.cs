@@ -13,7 +13,7 @@ namespace P3bble.Core.Messages
 {
     /// <summary>
     /// Represents the time message
-    /// </summary>
+    /// </summary> 
     internal enum TimeMessageAction : byte
     {
         /// <summary>
