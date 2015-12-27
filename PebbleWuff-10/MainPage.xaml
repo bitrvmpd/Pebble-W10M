@@ -1,0 +1,90 @@
+﻿<Page
+    x:Class="PebbleWuff_10.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PebbleWuff_10"
+    xmlns:local2="using:PebbleWuff_10.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:src="using:PebbleWuff_10"
+    mc:Ignorable="d" Loaded="Page_Loaded"  Unloaded="Page_Unloaded">
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Pivot Title="PebbleWuff">
+            <PivotItem Header="Status">
+                <RelativePanel>
+                    <RelativePanel Name="rlpnlStatus" RelativePanel.AlignHorizontalCenterWithPanel="True">
+                        <Image HorizontalAlignment="Center" RelativePanel.AlignHorizontalCenterWithPanel="True" x:Name="imgPebble" Source="Assets/pebble_classic.png" Width="120" Height="204"  />
+                        <TextBlock Name="PebbleName" RelativePanel.Below="imgPebble"/>
+                        <TextBlock Name="PebbleVersion" RelativePanel.Below="PebbleName"/>
+                        <Button RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.Below="PebbleVersion" Name="PebbleRegisterAcc" Width="200" Click="PebbleRegisterAcc_Click" Margin="0,0,0,4" VerticalAlignment="Bottom">Connect</Button>
+                        <Button RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.Below="PebbleVersion" Name="PebbleDisconnect" Width="200" Click="PebbleDisconnect_Click" Margin="0,0,0,4" VerticalAlignment="Bottom" Visibility="Collapsed">Disconnect</Button>
+                    </RelativePanel>
+                    </RelativePanel>
+            </PivotItem>
+            <PivotItem Header="Enabled Apps">
+                <ScrollViewer>
+                    <RelativePanel>
+                        <ItemsControl RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Name="lvItems" ItemsSource="{x:Bind ItemList}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="local2:AppItem">
+                                    <Grid Width="Auto" Height="Auto" HorizontalAlignment="Stretch">
+                                        <RelativePanel Width="Auto" Height="Auto" HorizontalAlignment="Stretch" >
+                                            <!--<Image  Name="imgIcon" RelativePanel.AlignLeftWithPanel="True" Source="{x:Bind AppIcon}" Width="40" Height="40"></Image>-->
+                                            <TextBlock TextAlignment="Center" RelativePanel.AlignVerticalCenterWith="tgglSwitch" Name="lblAppName" Text="{x:Bind Name}"></TextBlock>
+                                            <ToggleSwitch Name="tgglSwitch" Tag="{x:Bind ID}" IsOn="{x:Bind IsRegistered}" Margin="0,0,0,0" RelativePanel.AlignRightWithPanel="True" Toggled="ToggleSwitch_Toggled"></ToggleSwitch>
+                                        </RelativePanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </RelativePanel>
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="Tests">
+                <ScrollViewer RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+                    
+                    <RelativePanel Name="rlpnlTestButtons" VerticalAlignment="Center" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"
+                                       RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+                        <TextBlock Margin="0,0,0,40" RelativePanel.AlignHorizontalCenterWithPanel="True" Name="lblStatusTest"></TextBlock>
+                        <Button RelativePanel.Below="lblStatusTest" RelativePanel.AlignHorizontalCenterWithPanel="True" Name="PebbleSendPing"  Width="200"  Click="PebbleSendPing_Click" Margin="0,0,0,4">Ping</Button>
+                        <Button RelativePanel.AlignHorizontalCenterWithPanel="True" Name="PebbleSendCall"  Width="200" RelativePanel.Below="PebbleSendPing" Click="PebbleSendCall_Click" Margin="0,0,0,4">Call</Button>
+                        <Button RelativePanel.AlignHorizontalCenterWithPanel="True" Name="PebbleSendSMS"  Width="200" RelativePanel.Below="PebbleSendCall" Click="PebbleSendSMS_Click" Margin="0,0,0,4">SMS</Button>
+                        <Button RelativePanel.AlignHorizontalCenterWithPanel="True" Name="PebbleSendNotification"  Width="200" RelativePanel.Below="PebbleSendSMS" Click="PebbleNotificationTest_Click" Margin="0,0,0,4">Notification</Button>
+                        <Button RelativePanel.AlignHorizontalCenterWithPanel="True" Name="PebbleSetCurrentTime"  Width="200" RelativePanel.Below="PebbleSendNotification" Click="PebbleSetCurrentTime_Click" Margin="0,0,0,4">Set Time</Button>
+                    </RelativePanel>
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="WatchApps">
+                <ScrollViewer>
+                    <RelativePanel>
+                        <ItemsControl RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Name="lvpItems" ItemsSource="{x:Bind PebbleAppList}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="local2:PebbleAppItem">
+                                    <Grid Width="Auto" Height="Auto" HorizontalAlignment="Stretch">
+                                        <RelativePanel Width="Auto" Height="Auto" HorizontalAlignment="Stretch" >
+                                            <!--<Image  Name="imgIcon" RelativePanel.AlignLeftWithPanel="True" Source="{x:Bind AppIcon}" Width="40" Height="40"></Image>-->
+                                            <TextBlock TextAlignment="Center" RelativePanel.AlignVerticalCenterWith="btnRemove" Name="lblPebbleAppName" Text="{x:Bind Name}"></TextBlock>
+                                            <Button Name="btnRemove" Tag="{x:Bind ID}" Content="Remove" Margin="0,0,0,0" RelativePanel.AlignRightWithPanel="True" Click="btnRemove_Click"></Button>
+                                            <Button Name="btnLaunch" Tag="{x:Bind ID}" Content="Launch" Margin="0,0,0,0" RelativePanel.LeftOf="btnRemove" Click="btnLaunch_Click"></Button>
+                                        </RelativePanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </RelativePanel>
+                </ScrollViewer>
+            </PivotItem>
+        </Pivot>
+        
+    </Grid>
+    
+    <Page.BottomAppBar>
+        <CommandBar VerticalAlignment="Bottom" ClosedDisplayMode="Minimal" >
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Name="btnAbout" Icon="ContactInfo" Click="btnAbout_Click" Label="About"/>
+                <AppBarButton Name="btnLicense" Click="btnLicense_Click" Label="p3bble License"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
+</Page>

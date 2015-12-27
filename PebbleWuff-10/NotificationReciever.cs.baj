@@ -1,0 +1,198 @@
+﻿using P3bble.Core;
+using P3bble.Core.Types;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
+using Windows.ApplicationModel.Background;
+using Windows.Phone.Notification.Management;
+using Windows.UI.Core;
+using Windows.UI.Notifications;
+using Windows.UI.Popups;
+
+namespace PebbleWuff_10
+{
+    /// <summary>
+    /// This class is going to handle all the background operations
+    /// Geting the new notification and send it as a message to the pebble
+    /// In the future, this will handle all the music/media actions triggered
+    /// by the Pebble
+    /// </summary>
+    public sealed class NotificationReciever : IBackgroundTask
+    {
+        BackgroundTaskDeferral deferral;
+        public static string str;
+        public static P3bble.Core.P3bble _pebble;
+
+
+
+        public static async void NotConnected()
+        {
+            _pebble = null;
+            //RetryConnection.Visibility = Visibility.Visible;
+            await TryConnection();
+        }
+
+        public static async Task TryConnection()
+        {
+            P3bble.Core.P3bble.IsMusicControlEnabled = true;
+            P3bble.Core.P3bble.IsLoggingEnabled = true;
+
+            List<P3bble.Core.P3bble> pebbles = await P3bble.Core.P3bble.DetectPebbles();
+
+            if (pebbles.Count >= 1)
+            {
+                _pebble = pebbles[0];
+                await _pebble.ConnectAsync();
+
+                if (_pebble != null && _pebble.IsConnected)
+                {
+                    _pebble.MusicControlReceived += new MusicControlReceivedHandler(MusicControlReceived);
+                    //_pebble.InstallProgress += new InstallProgressHandler(this.InstallProgressReceived);
+
+                    //if (_pebble.DisplayName != null)
+                    //    PebbleName.Text = "Connected to Pebble " + _pebble.DisplayName;
+                    //if (_pebble.FirmwareVersion != null)
+                    //    PebbleVersion.Text = "Version " + _pebble.FirmwareVersion.Version + " - " + _pebble.FirmwareVersion.Timestamp.ToString("ddMMYYY");
+                    //RetryConnection.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    NotConnected();
+                }
+            }
+        }
+
+        public static async void MusicControlReceived(MusicControlAction action)
+        {
+            //Windows.UI.Popups.MessageDialog md = new Windows.UI.Popups.MessageDialog(action.ToString());
+            //await md.ShowAsync();
+            AccessoryManager.IncreaseVolume(1);
+        }
+
+        public void Run(IBackgroundTaskInstance taskInstance)
+        {
+            Debug.WriteLine("TESTSTSTST");
+        }
+
+        //public async void Run(IBackgroundTaskInstance taskInstance)
+        //{
+            
+
+        //    deferral = taskInstance.GetDeferral();
+        //    try
+        //    {
+        //        //First we connect to the pebble
+        //        if(str==null)
+        //            str = AccessoryManager.RegisterAccessoryApp();
+        //        //If we want to so use await methods on this class we must
+        //        //get the deferral so this will prevent the class from terminate
+        //        //before the current async operation finish.
+
+                
+
+        //        #region Test Get Notification
+        //        //Obtengo el siguiente trigger de notificacion
+
+        //        IAccessoryNotificationTriggerDetails nextTriggerDetails;
+        //        do
+        //        {
+        //            nextTriggerDetails = AccessoryManager.GetNextTriggerDetails();
+        //        } while (nextTriggerDetails == null);
+        //        //Proceso lo que trae esta notificacion
+        //        if (nextTriggerDetails != null)
+        //        {
+        //            AccessoryManager.ProcessTriggerDetails(nextTriggerDetails);
+        //        }
+        //        //Puedo hacer un filtrado de las notificacione que deseo ver
+        //        // if (!this.TriggerDetailsTobeIgnored(nextTriggerDetails))
+        //        // {
+        //        // }
+        //        //Recorro los detalles, mientras no sean null
+        //        while (nextTriggerDetails != null)
+        //        {
+        //            Debug.WriteLine("Obtuve un trigger!");
+        //            Debug.WriteLine("Nombre de app de notificacion: " + nextTriggerDetails.AppDisplayName);
+        //            Debug.WriteLine("Tipo de notificacion: " + nextTriggerDetails.AccessoryNotificationType);
+
+        //            if (_pebble != null && _pebble.IsConnected)
+        //            {
+        //                //_pebble.FacebookNotificationAsync(nextTriggerDetails.AppDisplayName, nextTriggerDetails.AccessoryNotificationType.ToString());
+        //                await _pebble.PingAsync();
+        //            }
+        //            else
+        //            {
+        //                await TryConnection();
+        //            }
+
+
+        //                //Luego de acuerdo al tipo de notificacion, con un switch-case realizo las acciones
+        //                //switch (nextTriggerDetails.AccessoryNotificationType)
+        //                //{
+        //                //    case AccessoryNotificationType.Phone:
+        //                //        //Tipo de notificacion telefonica, puede ser de otro tipo mas
+        //                //        PhoneNotificationTriggerDetails phonenotificationTriggerDetail = nextTriggerDetails as PhoneNotificationTriggerDetails;
+        //                //        switch (phonenotificationTriggerDetail.AccessoryNotificationType)
+        //                //        {
+        //                //            //El teléfono difiere entre sms y otra cosa mas.
+        //                //        }
+        //                //        break;
+        //                //}
+
+        //                //Proceso el siguiente detalle que viene en las notificaciones.
+        //                AccessoryManager.ProcessTriggerDetails(nextTriggerDetails);
+        //            nextTriggerDetails = AccessoryManager.GetNextTriggerDetails();
+        //        }
+        //        BackgroundAccessStatus backgroundAccessStatu = await BackgroundExecutionManager.RequestAccessAsync();
+        //        if (backgroundAccessStatu == BackgroundAccessStatus.Denied)
+        //        {
+        //            Debug.WriteLine(String.Concat("Error, Access Denied for background execution ", backgroundAccessStatu));
+
+        //            MessageDialog messageDialog = new MessageDialog("Access denied for background execution, try disabling some apps from background execution from Settings -> Battery Saver!");
+        //            await messageDialog.ShowAsync();
+        //        }
+        //        else
+        //        {
+        //            //foreach (IBackgroundTaskRegistration value in BackgroundTaskRegistration.get_AllTasks)
+        //            //{
+        //            //    BackgroundTaskRegistration backgroundTaskRegistration = (BackgroundTaskRegistration)value;
+        //            //    if (backgroundTaskRegistration.Name != "BackGroundTaskForPebble")
+        //            //    {
+        //            //        continue;
+        //            //    }
+        //            //    //WindowsRuntimeMarshal.AddEventHandler<BackgroundTaskCompletedEventHandler>(new Func<BackgroundTaskCompletedEventHandler, EventRegistrationToken>(backgroundTaskRegistration, BackgroundTaskRegistration.add_Completed), new Action<EventRegistrationToken>(backgroundTaskRegistration, BackgroundTaskRegistration.remove_Completed), new BackgroundTaskCompletedEventHandler(this.registration_Completed));
+
+        //            //}
+        //            Debug.WriteLine("Registering BackGround Task for notifications");
+        //            BackgroundTaskBuilder backgroundTaskBuilder = new BackgroundTaskBuilder()
+        //            {
+        //                Name = "BackGroundTaskForPebble",
+        //                TaskEntryPoint = "PebbleBackGroundTaskLibrary.BackGroundTaskTestClass"
+        //            };
+
+        //            DeviceManufacturerNotificationTrigger deviceManufacturerNotificationTrigger = new DeviceManufacturerNotificationTrigger(String.Concat("Microsoft.AccessoryManagement.Notification:", str), false);
+        //            backgroundTaskBuilder.SetTrigger(deviceManufacturerNotificationTrigger);
+        //            BackgroundTaskRegistration backgroundTaskRegistration1 = backgroundTaskBuilder.Register();
+        //            //WindowsRuntimeMarshal.AddEventHandler<BackgroundTaskCompletedEventHandler>(new Func<BackgroundTaskCompletedEventHandler, EventRegistrationToken>(backgroundTaskRegistration1, BackgroundTaskRegistration.add_Completed), new Action<EventRegistrationToken>(backgroundTaskRegistration1, BackgroundTaskRegistration.remove_Completed), new BackgroundTaskCompletedEventHandler(this.registration_Completed));
+
+        //            Object[] taskId = new Object[] { "Registered background task ", backgroundTaskRegistration1.TaskId, " ,", backgroundTaskRegistration1.Name, "." };
+        //            Debug.WriteLine(String.Concat(taskId));
+
+        //            Object[] objArray = new Object[] { "Background task registered:", backgroundTaskRegistration1.TaskId, " ,", backgroundTaskRegistration1.Name, "From:", "" };
+        //            Debug.WriteLine(String.Concat(objArray));
+        //            AccessoryManager.EnableAccessoryNotificationTypes(2047); //Cualquier notificacion entrante.
+
+        //        }
+        //        #endregion
+        //    }catch(Exception ex)
+        //    {
+        //        System.Diagnostics.Debug.WriteLine(ex.Message);
+        //    }
+        //    //Finally we tell that the background task can terminate.
+        //    deferral.Complete();
+        //}
+    }
+}
