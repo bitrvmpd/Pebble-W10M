@@ -1,4 +1,4 @@
-# Pebble-W10
+# Pebble-W10M
 Alpha, Expect issues, code inconsistency, spaghetti code, etc, etc...
 
 # License
