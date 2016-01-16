@@ -1,5 +1,5 @@
 # Pebble-W10
-Alpha?, do not fork or anything.. really 
+Alpha, Expect issues, code inconsistency, spaghetti code, etc, etc...
 
 # License
 Licensed by the GNU General Public License 3 available here https://raw.githubusercontent.com/bitrvmpd/Pebble-W10/master/LICENSE
