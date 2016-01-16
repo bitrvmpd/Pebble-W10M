@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="56769Noyer.PebbleWuff" Publisher="CN=F3B4DB6A-703C-465F-B563-333C9EEF151C" Version="1.1.0.0" />
+  <Identity Name="56769Noyer.PebbleWuff" Publisher="CN=Eduardo Noyer" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="5335117f-571f-42ee-93ab-a37e9bfa2868" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>PebbleWuff</DisplayName>
@@ -60,6 +60,10 @@
     <DeviceCapability Name="proximity" />
     <DeviceCapability Name="bluetooth" />
     <DeviceCapability Name="accessoryManager" />
-    <DeviceCapability Name="bluetooth.rfcomm" />
+    <DeviceCapability Name="bluetooth.rfcomm">
+      <Device Id="any">
+        <Function Type="serviceId:00000000-deca-fade-deca-deafdecacaff"></Function>
+      </Device>
+    </DeviceCapability>
   </Capabilities>
 </Package>

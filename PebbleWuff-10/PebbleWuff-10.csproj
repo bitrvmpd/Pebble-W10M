@@ -17,10 +17,12 @@
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>edo.bitrvmpd.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>PebbleWuff-10_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>arm</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>80D43CAEE07CA5A597C08EA0544F9A2A55128843</PackageCertificateThumbprint>
+    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -105,6 +107,7 @@
     <Content Include="Assets\pebble_classic.png" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="WindowsPhoneReservedAppInfo.xml" />
+    <None Include="PebbleWuff-10_TemporaryKey.pfx" />
     <None Include="project.json" />
     <None Include="pwuff10.snk" />
   </ItemGroup>

@@ -899,7 +899,8 @@ namespace P3bble.Core
                 case Endpoint.PhoneVersion:
                     // We need to tell the Pebble what we are...
                     await this._protocol.WriteMessage(new PhoneVersionMessage(IsMusicControlEnabled));
-
+                    //Force Disconnect
+                    //await this.TransferOwnership("PebbleSocket");
                     break;
                 case Endpoint.Logs:
                     if (message as LogsMessage != null)

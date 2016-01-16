@@ -219,7 +219,7 @@ namespace P3bble.Core.Communication
                         ServiceLocator.Logger.WriteLine("[message available]");
                         using (await readMutex.LockAsync())
                         {
-                            ServiceLocator.Logger.WriteLine("[message unclocked]");
+                            ServiceLocator.Logger.WriteLine("[message unlocked]");
                             uint payloadLength;
                             uint endpoint;
 

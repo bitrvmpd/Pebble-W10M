@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PebbleWuff-10", "PebbleWuff-10\PebbleWuff-10.csproj", "{ABFA3FD0-EBFC-4A05-9AE0-B44B107CAF91}"
 EndProject
@@ -10,6 +10,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P3bble.PCL", "P3bble.PCL\P3bble.PCL.csproj", "{AC57D9A3-0DFB-4780-8852-C8F5CD93E94C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WuffNotificationWatcher", "WuffNotificationWatcher\WuffNotificationWatcher.csproj", "{EF6E399F-CFBD-4147-A46A-61D5470F20CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeWuffsResearch-Pebble", "LeWuffsResearch-Pebble\LeWuffsResearch-Pebble.csproj", "{46969E25-4FD1-424E-8EEB-3B4507296E1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeWuffsResearch-Background", "LeWuffsResearch-Background\LeWuffsResearch-Background.csproj", "{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +95,42 @@ Global
 		{EF6E399F-CFBD-4147-A46A-61D5470F20CC}.Release|x64.Build.0 = Release|x64
 		{EF6E399F-CFBD-4147-A46A-61D5470F20CC}.Release|x86.ActiveCfg = Release|x86
 		{EF6E399F-CFBD-4147-A46A-61D5470F20CC}.Release|x86.Build.0 = Release|x86
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Debug|ARM.ActiveCfg = Debug|ARM
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Debug|ARM.Build.0 = Debug|ARM
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Debug|ARM.Deploy.0 = Debug|ARM
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Debug|x64.ActiveCfg = Debug|x64
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Debug|x64.Build.0 = Debug|x64
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Debug|x64.Deploy.0 = Debug|x64
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Debug|x86.ActiveCfg = Debug|x86
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Debug|x86.Build.0 = Debug|x86
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Debug|x86.Deploy.0 = Debug|x86
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Release|Any CPU.ActiveCfg = Release|x86
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Release|ARM.ActiveCfg = Release|ARM
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Release|ARM.Build.0 = Release|ARM
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Release|ARM.Deploy.0 = Release|ARM
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Release|x64.ActiveCfg = Release|x64
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Release|x64.Build.0 = Release|x64
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Release|x64.Deploy.0 = Release|x64
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Release|x86.ActiveCfg = Release|x86
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Release|x86.Build.0 = Release|x86
+		{46969E25-4FD1-424E-8EEB-3B4507296E1E}.Release|x86.Deploy.0 = Release|x86
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Debug|ARM.ActiveCfg = Debug|ARM
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Debug|ARM.Build.0 = Debug|ARM
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Debug|x64.ActiveCfg = Debug|x64
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Debug|x64.Build.0 = Debug|x64
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Debug|x86.ActiveCfg = Debug|x86
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Debug|x86.Build.0 = Debug|x86
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Release|ARM.ActiveCfg = Release|ARM
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Release|ARM.Build.0 = Release|ARM
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Release|x64.ActiveCfg = Release|x64
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Release|x64.Build.0 = Release|x64
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Release|x86.ActiveCfg = Release|x86
+		{7BD52380-FBE8-4CC3-BF28-866A8474F4BD}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,43 +1,56 @@
-﻿using P3bble.Core;
+﻿/*
+    Copyright (C) 2016  Eduardo Elías Noyer Silva
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/*
+    Copyright (C) 2016  Eduardo Elías Noyer Silva
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Phone.Notification.Management;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using P3bble.Core.Types;
-using Windows.UI.Popups;
 using Windows.Storage;
 using WuffNotificationWatcher;
 using PebbleWuff_10.Models;
-using System.Collections.ObjectModel;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Core;
 using Windows.Graphics.Imaging;
-using Windows.Devices.Bluetooth.Background;
 using Windows.Networking.Proximity;
 using System.Threading;
-using Windows.Devices.Enumeration;
-using Windows.Networking.Sockets;
 using Windows.Devices.Bluetooth;
-using Windows.Networking;
-using Windows.Devices.Bluetooth.Rfcomm;
 using Windows.Devices.Bluetooth.Advertisement;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 // La plantilla de elemento Página en blanco está documentada en http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace PebbleWuff_10
@@ -509,10 +522,14 @@ namespace PebbleWuff_10
                     builder.SetTrigger(devicemanufacturerNotificationTrigger);
 
                     builder2.SetTrigger(applicationtrigger);
+                    try {
+                        dcct = await DeviceConnectionChangeTrigger.FromIdAsync(deviceId);
+                        builder3.SetTrigger(dcct);
 
-                    dcct = await DeviceConnectionChangeTrigger.FromIdAsync(deviceId);
-                    builder3.SetTrigger(dcct);
-
+                    }catch(Exception ex)
+                    {
+                        dcct = await DeviceConnectionChangeTrigger.FromIdAsync("serviceId:00000000-deca-fade-deca-deafdecacaff");
+                    }
                     //builder2.SetTrigger(DeviceInformation.CreateWatcher().GetBackgroundTrigger(new[] { DeviceWatcherEventKind.Update,DeviceWatcherEventKind.Add,DeviceWatcherEventKind.Remove }.AsEnumerable<DeviceWatcherEventKind>()));
                     //try {
                     //    var builder3 = new BackgroundTaskBuilder();
@@ -531,12 +548,15 @@ namespace PebbleWuff_10
                     Debug.WriteLine("Building Task");
                     BackgroundTaskRegistration task = builder.Register();
                     BackgroundTaskRegistration task2 = builder2.Register();
-                    try {
-                        BackgroundTaskRegistration task3 = builder3.Register();
-                    }catch(Exception ex)
-                    {
-                        Debug.WriteLine(ex.Message +"\n"+ ex.StackTrace +"\n"+ ex.Source);
-                    }
+                    //try {
+                    //    BackgroundTaskRegistration task3 = builder3.Register();
+                    //}catch(Exception ex)
+                    //{
+                    //    dcct = await DeviceConnectionChangeTrigger.FromIdAsync("serviceId:00000000-deca-fade-deca-deafdecacaff");
+                    //    builder3.SetTrigger(dcct);
+                    //    builder3.Register();
+                    //    Debug.WriteLine(ex.Message +"\n"+ ex.StackTrace +"\n"+ ex.Source);
+                    //}
                     //deviceId = "any";                
                     
 

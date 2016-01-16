@@ -47,6 +47,9 @@ namespace P3bble.Core.Messages
                 case Endpoint.Version:
                     frame = new VersionMessage();
                     break;
+                case Endpoint.PhoneVersion:
+                    frame = new PhoneVersionMessage(true);
+                    break;
 
                 case Endpoint.Time:
                     frame = new TimeMessage();
