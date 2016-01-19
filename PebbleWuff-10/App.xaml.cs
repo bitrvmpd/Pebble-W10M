@@ -107,6 +107,7 @@ namespace PebbleWuff_10
         /// <param name="e">Detalles sobre el error de navegación</param>
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
+            LittleWatson.ReportException(e.Exception, "Failed to load Page " + e.SourcePageType.FullName);
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 

@@ -82,7 +82,7 @@ namespace P3bble.Core
                     isError = false;
                     while (!_protocol._ok)
                     {
-                        Debug.WriteLine("---------Esperando a que se pase al socket Broker ------");
+                        //Debug.WriteLine("---------Esperando a que se pase al socket Broker ------");
                         await Task.Delay(1);
                     }
                 }

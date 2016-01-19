@@ -67,6 +67,7 @@ namespace PebbleWuff_10
 
         public MainPage()
         {
+            LittleWatson.CheckForPreviousException();
             this.InitializeComponent();
             ApplicationData.Current.LocalSettings.Values["Name"] = null;
             ApplicationData.Current.LocalSettings.Values["Version"] = null;
@@ -96,6 +97,7 @@ namespace PebbleWuff_10
 
         private void Current_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            LittleWatson.ReportException(e.Exception, "UnhandledException ");
             Debug.WriteLine(e.Message);
             e.Handled = true;
         }

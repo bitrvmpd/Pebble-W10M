@@ -78,16 +78,18 @@ namespace P3bble.Core.Communication
                     if (backgroundTaskID != Guid.Empty)
                     {
                         ServiceLocator.Logger.WriteLine(DateTime.Now.ToString() + " Protocol.cs:  Habilitaré TransferOwnership");
-                        if(isNull)
+                        if (isNull)
                             socket.EnableTransferOwnership(backgroundTaskID, SocketActivityConnectedStandbyAction.Wake);
                     }
                     else
                     {
                         ServiceLocator.Logger.WriteLine(DateTime.Now.ToString() + " Protocol.cs:  No habilité TransferOwnership");
                     }
-                    await socket.ConnectAsync(peer.HostName, Guid.Parse("00000000-deca-fade-deca-deafdecacaff").ToString("B")).AsTask(cts.Token);
+                    if (isNull)
+                        await socket.ConnectAsync(peer.HostName, Guid.Parse("00000000-deca-fade-deca-deafdecacaff").ToString("B")).AsTask(cts.Token);
                     error = false;
                     //await socket.CancelIOAsync();
+                    //var context = new SocketActivityContext();
                     //socket.TransferOwnership("CustomSocket");
                     //await socket.ConnectAsync(peer.HostName, RfcommServiceId.SerialPort.Uuid.ToString()).AsTask(cts.Token);
                 }
@@ -259,7 +261,8 @@ namespace P3bble.Core.Communication
                             ServiceLocator.Logger.WriteLine(DateTime.Now.ToString() + " Protocol.cs:  Intentando cancelar operaciones");
                             await _socket.CancelIOAsync();
                             ServiceLocator.Logger.WriteLine(DateTime.Now.ToString() + " Protocol.cs:  Cancelación correcta. Transfiriendo...");
-                            _socket.TransferOwnership(socketID);
+                            var context = new SocketActivityContext(_reader.DetachBuffer());
+                            _socket.TransferOwnership(socketID,context);
                             ServiceLocator.Logger.WriteLine(DateTime.Now.ToString() + " Protocol.cs:  OK! Transferencia Correcta.");
                             _ok = true;
                             break;

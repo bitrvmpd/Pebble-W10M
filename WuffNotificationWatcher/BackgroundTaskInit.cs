@@ -34,6 +34,7 @@ using Windows.Storage;
 using Windows.UI.Core;
 using NotificationsExtensions.Toasts; // NotificationsExtensions.Win10
 using Windows.UI.Notifications;
+using Windows.Storage.Streams;
 
 namespace WuffNotificationWatcher
 {
@@ -42,13 +43,14 @@ namespace WuffNotificationWatcher
         BackgroundTaskDeferral deferral = null;
         static string str;
 
-        Timer t1;        
-          
+        Timer t1;
+
         static bool isCanceled = false;
         static string socketID = Guid.NewGuid().ToString();
         public async void DisposeTaskInit(IBackgroundTaskInstance taskInstance, BackgroundTaskCancellationReason cancellationReason)
         {
-            try {
+            try
+            {
                 t1.Dispose();
                 ShowToast("Tarea Cancelada Razón-> " + cancellationReason.ToString());
                 Debug.WriteLine(DateTime.Now.ToString() + ": Tarea Cancelada Razón-> " + cancellationReason.ToString());
@@ -58,15 +60,16 @@ namespace WuffNotificationWatcher
                 ShowToast("Transferencia correcta, terminando operación actual...");
                 Debug.WriteLine(DateTime.Now.ToString() + ": Transferencia correcta, terminando operación actual...");
                 isCanceled = true;
-              
-            }catch(Exception ex)
+
+            }
+            catch (Exception ex)
             {
                 Debug.WriteLine(DateTime.Now.ToString() + ex.Message);
                 ShowToast(ex.Message);
             }
             finally
             {
-                ApplicationData.Current.LocalSettings.Values["canReconnect"] = "true";                
+                ApplicationData.Current.LocalSettings.Values["canReconnect"] = "true";
                 deferral.Complete();
             }
         }
@@ -143,18 +146,19 @@ namespace WuffNotificationWatcher
         private static void InstallProgressHandler(int percentComplete)
         {
             ApplicationData.Current.LocalSettings.Values["installProgress"] = percentComplete.ToString();
-            Debug.WriteLine(DateTime.Now.ToString() + " InstallProgress: " +percentComplete + "%" );
+            Debug.WriteLine(DateTime.Now.ToString() + " InstallProgress: " + percentComplete + "%");
         }
         private async void Callback(object state)
-        {            
-            try {
+        {
+            try
+            {
                 t1.Dispose();
                 ShowToast("Se superó el tiempo de espera, intentanto transferir socket al socketBroker");
                 Debug.WriteLine(DateTime.Now.ToString() + ": Se superó el tiempo de espera, intentanto transferir socket al socketBroker ");
                 await _pebble.TransferOwnership(socketID);
                 isCanceled = true;
                 ShowToast("Transferencia correcta, terminando operación actual...");
-                Debug.WriteLine(DateTime.Now.ToString() + ": Transferencia correcta, terminando operación actual...");               
+                Debug.WriteLine(DateTime.Now.ToString() + ": Transferencia correcta, terminando operación actual...");
             }
             catch (Exception ex)
             {
@@ -184,7 +188,7 @@ namespace WuffNotificationWatcher
                 BodyTextLine1 = new ToastText()
                 {
                     Text = content
-                }                
+                }
             };
 
 
@@ -200,7 +204,7 @@ namespace WuffNotificationWatcher
             toast.Tag = "1";
             toast.Group = "wuffP";
 
-            ToastNotificationManager.CreateToastNotifier().Show(toast);
+            //ToastNotificationManager.CreateToastNotifier().Show(toast);
         }
 
         //private static void InstallProgressReceived(int percentComplete)
@@ -213,7 +217,7 @@ namespace WuffNotificationWatcher
         {
             GC.KeepAlive(this);
             GC.SuppressFinalize(this);
-            //t1 = new Timer(Callback, null, 1000 * 30, 0);
+            //t1 = new Timer(Callback, null, 1000 * 40, 0);
             //t1 = new Timer(Callback, null, 1000 *60* 8, 0);
 
             deferral = taskInstance.GetDeferral();
@@ -235,16 +239,15 @@ namespace WuffNotificationWatcher
             {
                 try
                 {
-                    //var res = await BackgroundExecutionManager.RequestAccessAsync();
-                    //Debug.WriteLine(res.ToString());
-                    //var builder3 = new BackgroundTaskBuilder();
-                    //builder3.Name = "SocketInput";
-                    //builder3.TaskEntryPoint = "WuffNotificationWatcher.BackgroundTaskInit";
-                    //SocketActivityTrigger st = new SocketActivityTrigger();
-                    //builder3.SetTrigger(st);
-                    //var r = builder3.Register();
-                    //btr = r.TaskId;
-                    //btr = "asdf";
+                    var res = await BackgroundExecutionManager.RequestAccessAsync();
+                    Debug.WriteLine(res.ToString());
+                    var builder3 = new BackgroundTaskBuilder();
+                    builder3.Name = "SocketInput";
+                    builder3.TaskEntryPoint = "WuffNotificationWatcher.BackgroundTaskInit";
+                    SocketActivityTrigger st = new SocketActivityTrigger();
+                    builder3.SetTrigger(st);
+                    var r = builder3.Register();
+                    btr = r.TaskId;
                 }
                 catch (Exception ex)
                 {
@@ -298,33 +301,9 @@ namespace WuffNotificationWatcher
                 switch (details.Reason)
                 {
                     case SocketActivityTriggerReason.KeepAliveTimerExpired:
-                    case SocketActivityTriggerReason.SocketActivity:
-                        if (socketInformation.StreamSocket == null)
-                        {
-                            Debug.WriteLine(DateTime.Now.ToString() + ": StreamSocket es null");
-                            btr = taskInstance.Task.TaskId;
-                            socket = null;
-                            break;
-                        }
-                        else
-                        {
-                            Debug.WriteLine(DateTime.Now.ToString() + ": StreamSocket no es null");
-                            try
-                            {
-                                lock (socketInformation)
-                                {
-                                    socket = socketInformation.StreamSocket;
-                                    socketID = socketInformation.Id;
-                                    btr = taskInstance.Task.TaskId;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                Debug.WriteLine(DateTime.Now.ToString() + ": " + ex.Message);
-                            }
-                            break;
-                        }
-                    case SocketActivityTriggerReason.SocketClosed:                       
+                    case SocketActivityTriggerReason.SocketActivity:                        
+                    case SocketActivityTriggerReason.SocketClosed:
+                    default:
                         btr = taskInstance.Task.TaskId;
                         socket = null;
                         break;
@@ -338,15 +317,16 @@ namespace WuffNotificationWatcher
                 //Obtengo el siguiente trigger de notificacion
                 while (true)
                 {
-                    if (isCanceled)
-                    {
+                    //if (isCanceled)
+                    //{
                         //deferral.Complete();
-                        break;
-                    }                   
+                    //    break;
+                    //}
 
                     string val = (string)ApplicationData.Current.LocalSettings.Values["isConnected"];
                     do
                     {
+
                         if (_pebble != null)
                         {
                             if (_pebble.IsConnected)
@@ -354,6 +334,7 @@ namespace WuffNotificationWatcher
                                 break;
                             }
                         }
+
 
                     } while (await TryConnection() == false);
 
@@ -469,12 +450,12 @@ namespace WuffNotificationWatcher
                                     var installedApps = await _pebble.GetInstalledAppsAsync();
                                     ApplicationData.Current.LocalSettings.Values["InstalledApplications"] = JObject.FromObject(installedApps).ToString();
                                     await Task.Delay(1000 * 10);
-                                    return;
+                                    break;
                                 case 8:
                                     //Meh meh meh
                                     ApplicationData.Current.LocalSettings.Values["InstalledApplications"] = null;
                                     uint id = uint.Parse((string)notificationData[1]);
-                                    await _pebble.RemoveAppAsync((await _pebble.GetInstalledAppsAsync()).ApplicationsInstalled.Where(x=>x.Id==id).FirstOrDefault());
+                                    await _pebble.RemoveAppAsync((await _pebble.GetInstalledAppsAsync()).ApplicationsInstalled.Where(x => x.Id == id).FirstOrDefault());
                                     break;
                                 case 9:
                                     uint id2 = uint.Parse(notificationData[1].ToString());
@@ -585,12 +566,13 @@ namespace WuffNotificationWatcher
                     //Proceso el siguiente detalle que viene en las notificaciones.
                     //AccessoryManager.ProcessTriggerDetails(nextTriggerDetails);
                     //nextTriggerDetails = AccessoryManager.GetNextTriggerDetails();
+                    Debug.WriteLine("Next notification!!! :D");
                     await Task.Delay(1);
                 }
                 //}
                 //taskInstance.Canceled -= new BackgroundTaskCanceledEventHandler(DisposeTaskInit);
                 #endregion
-                deferral.Complete();
+                //deferral.Complete();
                 return;
             }
             catch (Exception ex)

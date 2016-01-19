@@ -9,7 +9,7 @@ namespace P3bble.Core.Messages
     internal class PhoneVersionMessage : P3bbleMessage
     {
         private const uint PhoneSessionCaps = (uint)SessionCaps.GammaRay;
-        private const uint RemoteCapsMusicControl = (uint)(RemoteCaps.Telephony | RemoteCaps.Sms | RemoteCaps.BTLE | RemoteCaps.IOS | RemoteCaps.CameraFront | RemoteCaps.CameraRear | RemoteCaps.Acceleromter | RemoteCaps.Compass | RemoteCaps.Gps);
+        private const uint RemoteCapsMusicControl = (uint)(RemoteCaps.Telephony | RemoteCaps.Sms | RemoteCaps.BTLE | RemoteCaps.Android | RemoteCaps.CameraFront | RemoteCaps.CameraRear | RemoteCaps.Acceleromter | RemoteCaps.Compass | RemoteCaps.Gps);
         //private const uint RemoteCapsMusicControl = (uint)(RemoteCaps.Telephony | RemoteCaps.Sms | RemoteCaps.Android);
         private const uint RemoteCapsNormal = (uint)(RemoteCaps.Telephony | RemoteCaps.Sms | RemoteCaps.Windows | RemoteCaps.Gps);
 
